@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Deepak ❤️</title>
+    <!-- Nunito Font from your reference image -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: #ffeef0;
+            background-image: radial-gradient(#ffccd5 20%, transparent 20%), radial-gradient(#ffccd5 20%, transparent 20%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden; /* Prevent page down scrolling completely */
+        }
+
+        /* --- FLOATING ENVELOPE STAGE --- */
+        .envelope-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: floatEnvelope 3s ease-in-out infinite; /* Floating effect */
+        }
+
+        .envelope {
+            width: 260px;
+            height: 180px;
+            background: #f1909a;
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        /* Envelope Flaps */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: -90px; left: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-bottom: 90px solid #d66874;
+        }
+        .envelope::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0;
+            border-left: 130px solid #ec7e8a;
+            border-right: 130px solid #ec7e8a;
+            border-top: 90px solid transparent;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* Wax Seal Heart */
+        .heart-seal {
+            position: absolute;
+            top: -20px; left: 108px;
+            width: 44px; height: 44px;
+            background-color: #d63031;
+            transform: rotate(-45deg);
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .heart-seal::before, .heart-seal::after {
+            content: "";
+            position: absolute;
+            width: 44px; height: 44px;
+            background-color: #d63031;
+            border-radius: 50%;
+        }
+        .heart-seal::before { top: -22px; left: 0; }
+        .heart-seal::after { left: 22px; top: 0; }
+
+        .hint {
+            color: #d66874;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        /* --- THE SINGLE PAGE MODAL CARD --- */
+        .letter-modal {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            max-height: 95vh; /* Fits inside any viewport safely */
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            z-index: 100;
+            text-align: center;
+        }
+
+        .letter-modal.show {
+            display: block;
+        }
+
+        h1 {
+            color: #d63031;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .apology-text {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: justify;
+            margin-bottom: 15px;
+            background: #fff5f6;
+            padding: 15px;
+            border-radius: 16px;
+            max-height: 220px; /* Locked height ensures no screen cutoff */
+            overflow-y: auto;
+        }
+
+        .sign-off {
+            margin-top: 12px;
+            text-align: right;
+            font-weight: 800;
+            color: #d66874;
+            font-style: italic;
+            display: block;
+        }
+
+        .question {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        /* Game Sections */
+        .game-step { display: none; }
+        .game-step.active { display: block; }
+
+        /* Buttons Container */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 70px;
+            position: relative; /* Context layout bounds */
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .yesBtn {
+            background-color: #2ecc71;
+            color: white;
+            z-index: 2;
+        }
+        .yesBtn:hover { transform: scale(1.08); }
+
+        .noBtn {
+            background-color: #e74c3c;
+            color: white;
+            z-index: 5;
+            transition: left 0.1s ease, top 0.1s ease; /* Fluid runaway movement */
+        }
+
+        /* --- SUCCESS LAYOUT --- */
+        .success-message {
+            display: none;
+            padding: 15px 0;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            color: #d63031;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .bouquet-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Float Animation */
+        @keyframes floatEnvelope {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Envelope Stage -->
+    <div class="envelope-container" id="envelopeStage">
+        <div class="envelope" id="mainEnvelope">
+            <div class="heart-seal"></div>
+        </div>
+        <div class="hint">Tap the heart seal to open 💌</div>
+    </div>
+
+    <!-- Interactive Letter Modal -->
+    <div class="letter-modal" id="letterModal">
+        <h1>To Deepak ❤️</h1>
+        
+        <div class="apology-text">
+            Firstly I'm sorry for all the chaos, arguments, dissatisfaction, complains even when everything was going alright. From here on, I hope our love binds us together and makes us accompany each other in a much stronger, trust filled and healthier relationship. I'm mentally married to you so I'll give you my word that I'll never give up on you. Not drag back the past instances that we've been through and the mistakes that we've made (which I mostly made). I hope we both succeed in life while having each other by our sides. I'll promise my full support and enthusiasm throughout this journey. I hope we last long enough to make ourselves feel proud of the love we're entangled in 🙌 I'll love you forever and ever and ever Deepak. You are and were the best! ❤️😘
+            
+            <span class="sign-off">Love, Vishnu</span>
+        </div>
+
+        <!-- Question Step 1 -->
+        <div class="game-step active" id="step1">
+            <p class="question">Do you still love me? 🥺</p>
+            <div class="btn-container" id="container1">
+                <button class="btn yesBtn" id="yesBtn1">YES</button>
+                <button class="btn noBtn" id="noBtn1">NO</button>
+            </div>
+        </div>
+
+        <!-- Question Step 2 -->
+        <div class="game-step" id="step2">
+            <p class="question">Do you want to go on a date with me tomorrow? 💘</p>
+            <div class="btn-container" id="container2">
+                <button class="btn yesBtn" id="yesBtn2">YES</button>
+                <button class="btn noBtn" id="noBtn2">NO</button>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <span class="bouquet-emoji">💐✨❤️✨💐</span>
+            <p class="success-title">
+                I knew it! <br> I love you more! ❤️✨👩‍❤️‍👨<br>See you tomorrow! 🥰
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const envelopeStage = document.getElementById('envelopeStage');
+        const mainEnvelope = document.getElementById('mainEnvelope');
+        const letterModal = document.getElementById('letterModal');
+        
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const successMessage = document.getElementById('successMessage');
+
+        // Open Envelope Action
+        mainEnvelope.addEventListener('click', () => {
+            envelopeStage.style.display = 'none';
+            letterModal.classList.add('show');
+        });
+
+        // Teleporting "NO" button logic with initialization handling
+        function moveNoButton(button, container) {
+            // Once touched/hovered, switch to absolute positioning to move freely inside container bounds
+            if(button.style.position !== 'absolute') {
+                button.style.position = 'absolute';
+            }
+
+            const padding = 8;
+            const maxX = container.clientWidth - button.clientWidth - (padding * 2);
+            const maxY = container.clientHeight - button.clientHeight - (padding * 2);
+
+            const randomX = Math.floor(Math.random() * maxX) + padding;
+            const randomY = Math.floor(Math.random() * maxY) + padding;
+
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+
+        // Setup Event Observers for No Buttons
+        const noBtn1 = document.getElementById('noBtn1');
+        const container1 = document.getElementById('container1');
+        noBtn1.addEventListener('mouseenter', () => moveNoButton(noBtn1, container1));
+        noBtn1.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoButton(noBtn1, container1); });
+
+        const noBtn2 = document.getElementById('noBtn2');
+        const container2 = document.getElementById('container2');
+        noBtn2.addEventListener('mouseenter', () => moveNoButton(noBtn2, container2));
+        noBtn2.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoButton(noBtn2, container2); });
+
+        // Phase Transitions
+        document.getElementById('yesBtn1').addEventListener('click', () => {
+            step1.classList.remove('active');
+            step2.classList.add('active');
+        });
+
+        document.getElementById('yesBtn2').addEventListener('click', () => {
+            step2.classList.remove('active');
+            successMessage.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
